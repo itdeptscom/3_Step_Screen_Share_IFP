@@ -5,17 +5,35 @@
   <title>Berbagi Layar Samsung</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    html, body { height:100%; margin:0; }
-    .pdf { position:fixed; inset:0; width:100%; height:100%; border:0; }
+    html,body{height:100%;margin:0}
+    iframe{position:fixed;inset:0;width:100%;height:100%;border:0}
   </style>
 </head>
 <body>
-  <iframe 
-    class="pdf" 
-    src="https://docs.google.com/viewer?url=https://itdeptsocm.github.io/3_Step_Screen_Share_IFP/Berbagi_Layar_Samsung.pdf&embedded=true">
-  </iframe>
+  <iframe id="viewer" src="about:blank"></iframe>
+  <script>
+    // path PDF relatif dari index.html
+    const pdf = 'Berbagi_Layar_Samsung.pdf';
+    const isFirefox = /firefox/i.test(navigator.userAgent);
+
+    // URL absolut PDF di GitHub Pages
+    const base = location.href.replace(/[^/]+$/, '');
+    const pdfAbs = new URL(pdf, base).href;
+
+    // Google Docs viewer (bagus di Chrome mobile)
+    const gdocs = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(pdfAbs);
+
+    if (isFirefox) {
+      // Biarkan Firefox pakai viewer bawaannya (stabil)
+      location.replace(pdf + '#view=FitH');
+    } else {
+      // Selain Firefox, pakai Google Docs viewer biar HP gak auto-download
+      document.getElementById('viewer').src = gdocs;
+    }
+  </script>
+
   <noscript>
-    <p>Jika PDF tidak tampil, <a href="Berbagi_Layar_Samsung.pdf">klik di sini</a>.</p>
+    Jika tidak tampil, <a href="Berbagi_Layar_Samsung.pdf">klik di sini</a>.
   </noscript>
 </body>
 </html>
